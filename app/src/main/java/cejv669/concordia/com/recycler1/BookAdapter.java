@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.List;
 
@@ -18,13 +19,15 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder> 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name, pages, isbn;
         Button btnCheckout;
+        ToggleButton btnToggleLent;
         MyViewHolder(View view) {
             super(view);
 
-            name = view.findViewById(R.id.txtBookName);
+            name = view.findViewById(R.id.txtName);
             pages = view.findViewById(R.id.txtPages);
             isbn = view.findViewById(R.id.txtISBN);
             btnCheckout = view.findViewById(R.id.btnCheckout);
+            btnToggleLent = view.findViewById(R.id.btnToggleLent);
         }
     }
 
@@ -34,7 +37,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder> 
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).
                 inflate(R.layout.book_row, viewGroup, false);
 
@@ -42,19 +45,26 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
         final Book book = bookList.get(i);
 
         myViewHolder.name.setText(book.getName());
         myViewHolder.isbn.setText(Integer.toString(book.getISBN()));
         myViewHolder.pages.setText(Integer.toString(book.getPages()));
+        myViewHolder.btnToggleLent.setChecked(book.isLent());
 
         myViewHolder.btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(v.getContext(), String.valueOf(book.getISBN()),
+                book.setLent(!book.isLent());
+
+                bookList.set(i, book);
+
+                Toast.makeText(v.getContext(), "Value Changed",
                         Toast.LENGTH_LONG).show();
+
+                notifyDataSetChanged();
             }
         });
     }
