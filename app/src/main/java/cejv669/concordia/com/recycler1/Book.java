@@ -4,9 +4,26 @@ import android.content.Intent;
 
 public class Book {
 
-   private String Name;
-   private Integer Pages, ISBN;
-   private boolean isLent;
+    private String Name;
+    private Integer Pages, ISBN;
+    private boolean isLent;
+
+    //Database Description Fields
+
+    public static final String TABLE_NAME = "books";
+    public static final String COLUMN_ISBN = "isbn";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_PAGES = "pages";
+    public static final String COLUMN_LENT = "lent";
+
+    public static final String CREATE_TABLE =
+            "CREATE TABLE " + TABLE_NAME
+                    + "(" + COLUMN_ISBN + " INTEGER PRIMARY KEY,"
+                    + COLUMN_NAME + " TEXT,"
+                    + COLUMN_PAGES + " INTEGER,"
+                    + COLUMN_LENT + " INTEGER"
+                    + ")";
+
 
     public Book(String name, Integer pages, Integer ISBN, boolean isLent) {
         Name = name;
